@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+        <title>toronto drive distance polygon</title>
+        <meta name='author' content='Kevin Leung'>
+        <meta name='description' content='This is a proof of concept driving distance calculator that outputs polygons based on user-inputted locations in Toronto.'>
+        <!-- fb opengraphdata -->
+        <meta property='og:title' content='toronto drive distances'>
+        <meta property='og:description' content='his is a proof of concept driving distance calculator that outputs polygons based on user-inputted locations in Toronto.'>
+        <!-- twitter meta -->
+        <meta name='twitter:title' content='toronto drive distances'>
+        <!-- bootstrap metatags -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- bootstrap library -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+		{% load static %}
+		<link rel='stylesheet' href='{% static "maps/gmaps.css" %}'>
+	</head>
+	<body>
+		<script>
+			// style from: https://snazzymaps.com/style/61/blue-essence
+			var map_style = [{"featureType": "landscape.natural", "elementType": "geometry.fill", "stylers": [{"visibility": "on"}, {"color": "#e0efef"} ] }, {"featureType": "poi", "elementType": "geometry.fill", "stylers": [{"visibility": "on"}, {"hue": "#1900ff"}, {"color": "#c0e8e8"} ] }, {"featureType": "road", "elementType": "geometry", "stylers": [{"lightness": 100 }, {"visibility": "simplified"} ] }, {"featureType": "road", "elementType": "labels", "stylers": [{"visibility": "off"} ] }, {"featureType": "transit.line", "elementType": "geometry", "stylers": [{"visibility": "on"}, {"lightness": 700 } ] }, {"featureType": "water", "elementType": "all", "stylers": [{"color": "#7dcdcd"} ] } ]
+			
+			// load gMaps
+			function initMap() {
+				// variables
+				var coord = {lat: 43.646254, lng: -79.384212};
+				//var start_loc = new google.maps.LatLng(43.646254,-79.384212)
+				// map obj
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 15,
+					center: coord
+				});
+				// map style
+				map.set('styles', map_style);
+				// starting location marker
+				/*
+				var marker = new google.maps.Marker({
+					position: start_loc,
+					map: map,
+					title: 'Your location'
+				});
+				*/
+
+				{% load static %}
+				map.data.loadGeoJson('{% static "maps/results_nodes.geojson" %}')
+			}
+		</script>
+		<!-- map div -->
+		<div id="map"></div>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=[API KEY HERE]&callback=initMap"> </script>
+	</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+        <title>toronto drive distance polygon</title>
+        <meta name='author' content='Kevin Leung'>
+        <meta name='description' content='This is a proof of concept driving distance calculator that outputs polygons based on user-inputted locations in Toronto.'>
+        <!-- fb opengraphdata -->
+        <meta property='og:title' content='toronto drive distances'>
+        <meta property='og:description' content='his is a proof of concept driving distance calculator that outputs polygons based on user-inputted locations in Toronto.'>
+        <!-- twitter meta -->
+        <meta name='twitter:title' content='toronto drive distances'>
+        <!-- bootstrap metatags -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- bootstrap library -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet'>
+        <!-- custom css -->
+		{% load static %}
+		<link rel="stylesheet" href="{% static 'maps/gmaps.css' %}">
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+					<!-- navbar -->
+					<ul class='nav nav-pills'>
+						<li class='nav-item'>
+							<a class='nav-link disabled' href='#'>Home</a>
+						</li>
+						<li class='nav-item'>
+							<a class='nav-link' href='/how'>How?</a>
+						</li>
+						<li class='nav-item'>
+							<a class='nav-link' href='https://www.github.com' title='Github'>Github</a>
+						</li>
+					</ul>
+					<!-- title -->
+					<h1>toronto_poly_dd</h1>
+					<!-- description -->
+					<p class="lead">polygons: drivetime_distance</p>
+					<!-- blurb -->
+					<p> This tool uses the nodes from <a href="http://www12.statcan.gc.ca/census-recensement/2011/geo/rnf-frr/index-2011-eng.cfm?year=16" title="Road Network geometry">StatsCan Road Network geometry</a>, to generate a drive-time distance polygon from a chosen point.<br>
+					<br>
+					To avoid melting my <strike>laptop</strike> server, only Toronto-data is generated.<br>
+					<br></p>
+
+					<div class="form-group">
+						<form action="/maps/add/" method="post">
+						    {% csrf_token %}
+	   						{{ form }}
+	   						<legend>Parametres</legend>
+						    <label for="location">Location/Coordinate</label>
+						    <input id="location" type="text" name="location_field" placeholder="123 Fake St.">
+							<label for="drivetime">Drivetime</label>
+						    <input id="drivetime" type="text" name="drivetime" placeholder="Minutes">
+							<fieldset class="form-group">
+								<legend>Return Type</legend>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input type="radio" class="form-check-input" name="radiochoice" id="optionsRadios1" value="poly" checked>
+										Polygon
+								</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input type="radio" class="form-check-input" name="radiochoice" id="optionsRadios2" value="nodes">
+										Roads Nodes
+									</label>
+								</div>
+							</fieldset>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+					<h2> Technologies used:</h2>
+					<ul>
+						<li>postgres</li>
+						<li>geodjango (geometry model fields)</li>
+						<li>postgis</li>
+						<li>pgrouting</li>
+						<li>django</li>
+						<li>bootstrap</li>
+						<li>python3</li>
+						<li>js + google maps api</li>
+					</ul>
+					</p>
+					<h2>Major Challenges:</h2>
+					<ul>
+						<li>non-standard geometry fields</li>
+						<li>had to create RFC-7946 compatible GeoJSON exporter in SQL</li>
+						<li>rebuilding geo-libraries to be compatible with python3</li>
+					</ul>
+					<h2>To do:</h2>
+					<ul>
+						<li>add in proper error handling</li>
+						<li>slowly learn ajax to update page dynamically without refresh</li>
+						<li>build proper UI with react/redux</li>
+						<li>finish implementing user sessions
+							<ul>
+								<li>backend model is ready for sessions</li>
+								<li>need to implement user register/login with oauth</li>
+							</ul>
+					</ul>
+				</div>
+			</div> 
+		</div>
+		<!-- bootstrap required libs -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	</body>
+</html>
