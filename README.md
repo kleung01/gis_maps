@@ -14,3 +14,4 @@ Requirements:
 
 For a rough overview of how it works, check out: /test sql scripts/backend.py
 For data preprocessing, check out: /test sql scripts/setup scripts.sql
+To see the geojson exporter, check out: /test sql scripts/geojson_exporter.sql
